@@ -154,7 +154,9 @@ var drill = '';
 								mkup.push(renderNode(n.c, el, options));
 							}
 						} else {
-							mkup.push(renderNode(n.c, sn, options));
+							if ((typeof sn === 'string' && sn.length > 0) || typeof sn === 'number') {
+								mkup.push(renderNode(n.c, sn, options));
+							}
 						}
 					}
 					break;
