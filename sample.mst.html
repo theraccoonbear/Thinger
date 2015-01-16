@@ -1,0 +1,21 @@
+{{#people}}
+	<div class="person">
+		<strong>Name:</strong> {{{name}}}<br>
+		<strong>Age:</strong> {{age}}<br>
+		<strong>Gender:</strong> {{gender}}</br>
+		<strong>Location:</strong> {{city}}, {{state}}<br>
+		<strong>Stuff:</strong> {{stuff}}<br>
+		<strong>Numbers:</strong> {{#numbers}}{{.}}, {{/numbers}}<br>
+		{{#spouse}}<strong>Spouse:</strong> {{name}} ({{gender}}, {{age}})<br>{{/spouse}}
+		{{^spouse}}<strong>Spouse:</strong> Unmarried<br>{{/spouse}}
+		<strong>Friends:</strong>
+		{{! Don't show this}}
+		
+		<ul>
+		{{#friends}}
+			<li><a href="#/details-{{id}}">{{name}}</a> ({{gender}} {{age}})</li>
+		{{/friends}}
+		</ul>
+	</div>
+	<p>&nbsp;</p>	
+{{/people}}

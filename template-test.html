@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Thinger</title>
+  
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
+  <script type="text/javascript" src="js/template.js"></script>
+	<script type="text/javascript" src="js//mustache.js"></script>
+	<script type="text/javascript" src="js//thinger.js"></script>
+  <style type='text/css'>
+    
+  </style>
+  
+
+
+<script type='text/javascript'>
+	var thinger = new Thinger();
+	thinger.enqueue('person-entry', 'templates/person-entry.mst.html');
+	thinger.load(function() {
+		console.log(thinger);
+		thinger.bind('#PersonForm')
+	
+		thinger.on('add', function(d, e) {
+			//console.log('add action triggered', d, e);
+			thinger.append(d);
+		});
+	});
+	
+	
+	
+	
+	
+</script>
+
+
+</head>
+<body>
+   
+	<div id="PersonForm" data-bind="#PersonList">
+		<label>Name: <input type="text" name="name"></label><br>
+		<label>Address: <input type="text" name="address"></label><br>
+		<label>Address 2: <input type="text" name="address_2"></label><br>
+		<label>City, State, ZIP
+			<input type="text" name="city">
+			<input type="text" name="state" size="2">
+			<input type="text" name="zip" size="5">
+		</label><br>
+		<input type="button" value="Add" data-action="add">
+	</div>
+	
+	<ul id="PersonList" data-template="person-entry"></ul>
+	 
+<div id="output"></div>
+    
+  
+</body>
+
+
+</html>
+
