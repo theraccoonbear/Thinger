@@ -13,7 +13,7 @@
 		this._props = [];
 		
 		for (var p in obj) {
-			if (obj.hasOwnProperty(p)) {
+			if (obj.hasOwnProperty(p) && p.indexOf('_') != 0 && typeof obj[p] !== 'function') {
 				(function() {
 					var sp = '' + p;
 					ctxt._props.push(sp);
