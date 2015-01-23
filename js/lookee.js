@@ -1,11 +1,15 @@
-var Template = '';
-
 var drill = '';
 
 (function() {
 	var tagRgx = /(\{{2,3})([^\}]+)(\}{2,3})/;
 
 	var Template_defaults = {};
+	
+	var loadResource = function(url, callback) {
+		$.get(url, {}, function(d, s, x) {
+			callback(d);
+		});
+	}; // loadResource()
 	
 	drill = function(obj, bits) {
 		bits = $.isArray(bits) ? bits : [bits];
@@ -18,12 +22,25 @@ var drill = '';
 		});
 	};
 	
-	Template = function(tmpl, options) {
+	TLD.Lookee = function(tmpl, options) {
 		this.parsed = this.parse(tmpl);
 		this.options = $.extend({}, Template_defaults, options);
+		this.ready = true;
 	};
 	
-	Template.prototype.parse = function(tmpl, o) {
+	//TLD.Lookee.prototype.enqueue = function(name, url, options) {
+	//	this._queue.push({name: name, url: url, options: options});
+	//}; // enqueue()
+	
+	TLD.Lookee.load = function(url, template) {
+		template = {};
+		template.ready = false;
+		loadResource(url, function(t) {
+			template = new TLD.Lookee(t);
+		});
+	};
+	
+	TLD.Lookee.prototype.parse = function(tmpl, o) {
 		var t = tmpl;
 		var m;
 		
@@ -196,16 +213,16 @@ var drill = '';
 		return mkup.join('');
 	};
 	
-	Template_render_defaults = {
+	Lookee_render_defaults = {
 		partials: {}
 	};
 	
-	Template.prototype.render = function(data, options) {
-		options = $.extend({}, Template_render_defaults, options);
+	TLD.Lookee.prototype.render = function(data, options) {
+		options = $.extend({}, Lookee_render_defaults, options);
 		options.parsed_partials = {};
 		
 		for (var pname in options.partials) {
-			options.parsed_partials[pname] = options.partials[pname] instanceof Template ? options.partials[pname] : new Template(options.partials[pname]); 
+			options.parsed_partials[pname] = options.partials[pname] instanceof TLD.Lookee ? options.partials[pname] : new TLD.Lookee(options.partials[pname]); 
 		}
 		
 		return renderNode(this.parsed.nodes, data, options);

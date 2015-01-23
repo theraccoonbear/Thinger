@@ -2,12 +2,11 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Thinger</title>
+  <title>TLD</title>
   
   <script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
-  <script type="text/javascript" src="js/template.js"></script>
-	<script type="text/javascript" src="js//mustache.js"></script>
-	<script type="text/javascript" src="js//thinger.js"></script>
+	<script type="text/javascript" src="js/require.js"></script>
+	<script data-main="js/tld" type="text/javascript" src="js/tld.js"></script>
   <style type='text/css'>
     
   </style>
@@ -15,21 +14,50 @@
 
 
 <script type='text/javascript'>
-	var thinger = new Thinger();
-	thinger.enqueue('person-entry', 'templates/person-entry.mst.html');
-	thinger.load(function() {
-		console.log(thinger);
-		thinger.bind('#PersonForm')
+	var template;
+	var myObj;
+	var thinger;
+	var t;
 	
-		thinger.on('add', function(d, e) {
-			//console.log('add action triggered', d, e);
-			thinger.append(d);
+	TLD(function() {
+		//TLD.load('templates/person-entry.mst.html', function(d) { template = d; });
+		//
+		//
+		//myObj = Object({
+		//	x: 1,
+		//	hello: "World",
+		//	a: {
+		//		longer: {
+		//			key: {
+		//				chain: "wooo!"
+		//			}
+		//		}
+		//	}
+		//});
+		//
+		//thinger = new TLD.Thinger(myObj);
+		
+		t = TLD.Thinger.from('#PersonForm', {
+			event: function(p, o, n) {
+				console.log('Event:' + p, o, n);
+				console.log(t.getObject());
+			}
 		});
-	});
-	
-	
-	
-	
+		
+		console.log(t);
+		
+		//var thinger = new TLD.Thinger();
+		//thinger.enqueue('person-entry', 'templates/person-entry.mst.html');
+		//thinger.load(function() {
+		//	console.log(thinger);
+		//	thinger.bind('#PersonForm')
+		//
+		//	thinger.on('add', function(d, e) {
+		//		//console.log('add action triggered', d, e);
+		//		thinger.append(d);
+		//	});
+		//});
+	}); 
 	
 </script>
 
@@ -41,7 +69,7 @@
 		<label>Name: <input type="text" name="name"></label><br>
 		<label>Address: <input type="text" name="address"></label><br>
 		<label>Address 2: <input type="text" name="address_2"></label><br>
-		<label>City, State, ZIP
+		<label data-tier="locale">City, State, ZIP
 			<input type="text" name="city">
 			<input type="text" name="state" size="2">
 			<input type="text" name="zip" size="5">
